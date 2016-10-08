@@ -1,6 +1,6 @@
 /**
  * @title Vanilla Tabs
- * @description Simple tabs on pure JS ((ES5)
+ * @description Simple tabs on pure JS (ES5)
  * @version 0.2
  * @author Andrey Matin
  * @date 02.10.2016
@@ -55,7 +55,7 @@
     /**
      * Sceleton
      */
-    var tab = {
+    var Tab = {
       errors : {},
       getError : function () {},
       init : function () {},
@@ -106,7 +106,7 @@
      * Get links from tablist
      */
     function getLinks() {
-      var linksClass = tab.linkClass;
+      var linksClass = Tab.linkClass;
       var tabLinks = id.getElementsByClassName(linksClass);
 
       if (tabLinks.length != 0) {
@@ -121,13 +121,13 @@
      */
     function setClick() {
       for (var i = 0; i < linksLength; i++) {
-
+        var link = links[i];
         /**
          * Toggle tabs on Click
          */
-        links[i].addEventListener('click', function (e) {
+        link.addEventListener('click', function (e) {
           e.preventDefault();
-          var obj = this;
+          var obj = e.currentTarget;
           show(obj);
         });
 
@@ -159,8 +159,10 @@
      */
     function reset() {
       for (var i = 0; i < linksLength; i++) {
-        links[i].classList.remove('active');
-        var a = links[i].getElementsByTagName('a')[0];
+        var link = links[i];
+        link.classList.remove('active');
+
+        var a = link.getElementsByTagName('a')[0];
         var href = a.getAttribute('href');
 
         if (href != null) {
@@ -185,11 +187,11 @@
     /**
      * Add public properties
      */
-    tab.errors = Tabs.errors;
-    tab.getError = Tabs.getError;
-    tab.init = init;
+    Tab.errors = Tabs.errors;
+    Tab.getError = Tabs.getError;
+    Tab.init = init;
 
-    return tab;
+    return Tab;
   }());
 
 }).call(this);

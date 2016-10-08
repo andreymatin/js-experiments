@@ -10,12 +10,14 @@
 ;(() => {
   'use strict';
 
+  // Check Tabs variable existing
   let tabsExist = false;
 
   if (typeof Tabs != 'undefined') {
     tabsExist = true;
   }
 
+  // Init Tabs view
   var Tabs = {};
 
   /**
@@ -57,7 +59,14 @@
    */
   this.Tabs = (function() {
 
+    /**
+     * Class Tab
+     */
     class Tab {
+
+      /**
+       * Constructor
+       */
       constructor(t = 'tabs') {
         this.errors = Tabs.errors;
         this.getError = Tabs.getError;
@@ -95,6 +104,7 @@
 
       /**
        * Set click event
+       *
        * https://developer.mozilla.org/en-US/docs/Web/Events/click
        * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions
        */
