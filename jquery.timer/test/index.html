@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jQuery H5S Placeholder Plugin v1.0.5</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/codemirror.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+	
+<body class="container">
+	<div class="main">
+
+		<header id="overview" class="jumbotron subhead">
+			<h1>jQuery Timer</h1>
+		</header>
+
+		<h2>Custom</h2>
+
+		<div class="timer-panel" id="timer-panel">
+			<div id="timer"></div>
+			<button class="pause-bt" id="ps-bt">Pause</button>
+			<button class="start-bt" id="st-bt">Start</button>
+			<button class="stop-bt" id="cl-bt">Stop</button>
+		</div>
+		
+		<ul>
+			<li>Seconds: <input type="text" name="seconds" id="seconds">
+			<li>Minutes: <input type="text" name="minutes" id="minutes">
+			<li>Hours: <input type="text" name="hours" id="hours">
+		</ul>
+
+	<textarea name="code" id="code" class="code">
+$('#timer').timer({
+	's': '#seconds',
+	'm': '#minutes',
+	'h': '#hours',
+	'timer': false,
+	'pause_bt': '#ps-bt',
+	'stop_bt': '#cl-bt',
+	'start_bt': '#st-bt'
+});	
+	</textarea>
+
+	
+		<h2>Default</h2>
+
+		<div class="timer-panel" id="timer-panel">
+
+			<div id="timer-default"></div>
+			<button class="pause-bt" id="pause-bt">Pause</button>
+			<button class="start-bt" id="start-bt">Start</button>
+			<button class="stop-bt" id="stop-bt">Stop</button>
+		</div>
+
+
+	<textarea name="code" id="code" class="code">
+$('#timer-default').timer();	
+	</textarea>
+
+	
+		
+	</div>
+
+
+	<!-- JavaScript at the bottom for fast page loading -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script defer src="../jquery.timer.js"></script>
+	
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/codemirror.js"></script>
+	<script src="js/javascript.js"></script>
+
+
+		<script type="text/javascript">
+
+	/**
+	 * Custom Timer
+	 */
+	$(function(){
+		$('#timer').timer({
+			's': '#seconds',
+			'm': '#minutes',
+			'h': '#hours',
+			'timer': false,
+			'pause_bt': '#ps-bt',
+			'stop_bt': '#cl-bt',
+			'start_bt': '#st-bt'
+		});
+		
+		$('#timer-default').timer();	
+	});
+		
+		
+	/**
+	 * CodeMirror
+	 */
+	var code_type = '';
+	$('.code').each(function(index) {
+		$(this).attr('id', 'code-' + index);
+		CodeMirror.fromTextArea(document.getElementById('code-' + index), {
+				mode: "javascript",
+				lineNumbers: true,
+				tabMode: "indent"
+			}
+		);
+
+	});		
+
+		</script>
+
+	
+</body>
+</html>
