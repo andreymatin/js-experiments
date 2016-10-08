@@ -5,9 +5,7 @@
  * @author Andrey Matin
  * @date 02.10.2016
  */
-(function() {
-  'use strict';
-
+;(function() {
   var tabsExist = false;
 
   if (typeof Tabs != 'undefined') {

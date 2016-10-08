@@ -6,7 +6,10 @@
  * @date 02.10.2016
  */
 
-(function() {
+
+;(() => {
+  'use strict';
+
   let tabsExist = false;
 
   if (typeof Tabs != 'undefined') {
@@ -54,131 +57,104 @@
    */
   this.Tabs = (function() {
 
-    /**
-     * Sceleton
-     */
-    let tab = {
-      errors : {},
-      getError : function () {},
-      init : function () {},
-      linkClass : 'tab'
-    };
+    class Tab {
+      constructor(t = 'tabs') {
+        this.errors = Tabs.errors;
+        this.getError = Tabs.getError;
+        this.linkClass = 'tab';
 
-    /**
-     * Private Variables
-     */
+        try {
+          this.id = document.getElementById(t);
 
-    // Selected object by Id
-    let id = null;
+          if (this.id === null) {
+            Tabs.getError(0);
+            return false;
+          }
 
-    // Tab Links
-    let links = [];
-
-    // Tab Panels
-    let panels = [];
-
-    /**
-     * Tab inititalization
-     */
-    function init(t = 'tabs') {
-      try {
-        id = document.getElementById(t);
-
-        if (id === null) {
+        } catch (err) {
           Tabs.getError(0);
-          return false;
         }
 
-      } catch (err) {
-        Tabs.getError(0);
+        this.links = this.getLinks();
+        this.setClick();
       }
 
-      links = getLinks();
-      setClick();
+      /**
+       * Get links from tablist
+       */
+      getLinks() {
+        let linksClass = this.linkClass;
+        let links = this.id.getElementsByClassName(linksClass);
 
-      return tab;
-    }
+        if (links.length != 0) {
+          return links;
+        }
 
-    /**
-     * Get links from tablist
-     */
-    function getLinks() {
-      let linksClass = tab.linkClass;
-      let links = id.getElementsByClassName(linksClass);
-
-      if (links.length != 0) {
-        return links;
+        return Tabs.getError(2);
       }
 
-      return Tabs.getError(2);
-    }
-
-    /**
-     * Set click event
-     */
-    function setClick() {
-      for (let item of links) {
-        item.addEventListener('click', function (e) {
-          e.preventDefault();
-          let obj = this;
-          show(obj);
-        });
+      /**
+       * Set click event
+       * https://developer.mozilla.org/en-US/docs/Web/Events/click
+       * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+       */
+      setClick() {
+        for (let item of this.links) {
+          item.addEventListener('click', (e) => {
+            e.preventDefault();
+            let target = e.currentTarget;
+            this.show(target);
+          }, false);
+        }
       }
-    }
 
-    /**
-     * Show active tab
-     */
-    function show(obj) {
-      let a = obj.getElementsByTagName('a')[0];
-      let href = a.getAttribute('href');
-
-      if (href != null) {
-        let idActive = href.replace('#', '');
-        let tabActive = document.getElementById(idActive);
-        reset();
-        setActive(obj, tabActive);
-      } else {
-        Tabs.getError(3);
-      }
-    }
-
-    /**
-     * Reset active tab
-     */
-    function reset() {
-      for (let item of links) {
-        item.classList.remove('active');
+      /**
+       * Show active tab
+       */
+     show(item) {
         let a = item.getElementsByTagName('a')[0];
         let href = a.getAttribute('href');
 
         if (href != null) {
           let idActive = href.replace('#', '');
           let tabActive = document.getElementById(idActive);
+          this.reset();
+          this.setActive(item, tabActive);
+        } else {
+          Tabs.getError(3);
+        }
+      }
 
-          if (typeof tabActive !== 'undefined' && tabActive !== null) {
-            tabActive.classList.remove('active');
+      /**
+       * Reset active tab
+       */
+      reset() {
+        for (let item of this.links) {
+          item.classList.remove('active');
+          let a = item.getElementsByTagName('a')[0];
+          let href = a.getAttribute('href');
+
+          if (href != null) {
+            let idActive = href.replace('#', '');
+            let tabActive = document.getElementById(idActive);
+
+            if (typeof tabActive !== 'undefined' && tabActive !== null) {
+              tabActive.classList.remove('active');
+            }
           }
         }
       }
+
+      /**
+       * Set tab as active
+       */
+      setActive(obj, tabActive) {
+        obj.classList.add('active');
+        tabActive.classList.add('active');
+      }
     }
 
-    /**
-     * Set tab as active
-     */
-    function setActive(obj, tabActive) {
-      obj.classList.add('active');
-      tabActive.classList.add('active');
-    }
-
-    /**
-     * Add public properties
-     */
-    tab.errors = Tabs.errors;
-    tab.getError = Tabs.getError;
-    tab.init = init;
-
-    return tab;
+    return Tab;
   }());
 
 }).call(this);
